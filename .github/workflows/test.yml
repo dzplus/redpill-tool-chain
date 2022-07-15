@@ -43,7 +43,7 @@ jobs:
     steps:
       - shell: bash
         env:
-          SUPER_SECRET: ${{ secrets.sn }}
+          SUPER_SECRET: ${{secrets.sn}}
         run: |
           echo $SUPER_SECRET
       - name: 检出项目文件
@@ -71,9 +71,9 @@ jobs:
       - name: 配置引导镜像
         run: |
           # 创建一个样本配置
-          cp sample_user_config.json ${{matrix.platform}}_user_config.json
+          cp sample_user_config.json ${{matrix.platform}}_user_config.jsonv
           # 调整VID和PID 0x0001->0x88AA,0x46f4->0x88AA
-          sed -i -e 's/0x0001/0x88AA/g' -e 's/0x46f4/0x88AA/g' ${{matrix.platform}}_user_config.json
+          sed -i -e 's/0x0001/${{secrets.pid}}/g' -e 's/0x46f4/${{secrets.vid}}/g' ${{matrix.platform}}_user_config.json
           echo $snse
           # 调整SN和MA
           sn=`./redpill_tool_chain.sh sn ${{matrix.platform}} | grep 'Serial Number' | awk '{print $3}'`
